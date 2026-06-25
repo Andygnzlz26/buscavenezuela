@@ -14,7 +14,7 @@ const CONFIG = {
       return 'http://localhost:8081';  // Demo server (Python)
     }
     // Production: direct to Cloudflare Worker
-    return 'https://buscavenezuela-api.workers.dev';
+    return 'https://buscavenezuela-api.andygnzlz10.workers.dev';
   })(),
   siteUrl: window.location.origin,
   defaultImage: '/img/default-persona.svg',
