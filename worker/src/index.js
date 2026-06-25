@@ -290,24 +290,21 @@ async function handleListPersonas(db, url) {
 
   const whereSQL = clauses.length > 0 ? "WHERE " + clauses.join(" AND ") : "";
 
-  // Count total
-  let countStmt = db.prepare(
+  // Count total — all params in one .bind() call
+  const countStmt = db.prepare(
     `SELECT COUNT(*) as total FROM personas p ${whereSQL}`
   );
-  for (const p of params) countStmt = countStmt.bind(p);
-  const countResult = await countStmt.first();
+  const countResult = await countStmt.bind(...params).first();
   const total = countResult ? countResult.total : 0;
 
-  // Fetch page
-  let queryStmt = db.prepare(
+  // Fetch page — include limit/offset in the same .bind()
+  const queryStmt = db.prepare(
     `SELECT p.* FROM personas p
      ${whereSQL}
      ORDER BY p.created_at DESC
      LIMIT ? OFFSET ?`
   );
-  for (const p of params) queryStmt = queryStmt.bind(p);
-  queryStmt = queryStmt.bind(limit, offset);
-  const { results } = await queryStmt.all();
+  const { results } = await queryStmt.bind(...params, limit, offset).all();
 
   // Serialize with foto_thumb and latest tipo
   const data = [];
