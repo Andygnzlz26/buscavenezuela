@@ -1,0 +1,9 @@
+[build]
+  command = "echo 'Static site - no build step'"
+  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Path = ["/reportar", "/buscar", "/estoy-bien", "/persona"]}

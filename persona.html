@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ficha de persona registrada en BuscaVenezuela. Mira el timeline de reportes, comparte y aporta información.">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Ficha de persona — BuscaVenezuela">
+  <meta property="og:description" content="Ficha de persona registrada en BuscaVenezuela. Mira el timeline de reportes y comparte.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_VE">
+  <title>Ficha de persona — BuscaVenezuela</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       EMERGENCY BANNER
+       ═══════════════════════════════════════════════════════════════ -->
+  <aside class="emergency-banner" role="alert">
+    ⚠️ Terremoto 7.5 — Caracas, La Guaira y otras ciudades afectadas
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo" aria-label="BuscaVenezuela — Ir al inicio">
+        <span class="logo-stripe logo-stripe--yellow" aria-hidden="true"></span>
+        <span class="logo-stripe logo-stripe--blue" aria-hidden="true"></span>
+        <span class="logo-stripe logo-stripe--red" aria-hidden="true"></span>
+        BuscaVenezuela
+      </a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="/buscar.html">← Volver a buscar</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PERSON DETAIL
+       ═══════════════════════════════════════════════════════════════ -->
+  <main class="person-detail">
+    <div class="container">
+
+      <!-- ──────────────────────────────────────────────────────────
+           Person Header
+           ────────────────────────────────────────────────────────── -->
+      <div class="person-detail__header person-header" id="person-header">
+        <!-- Photo -->
+        <div class="person-detail__photo person-detail__photo--placeholder" id="person-photo" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"
+               style="color: var(--text-muted);">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+
+        <!-- Info -->
+        <div class="person-detail__info">
+          <h1 id="person-name">Cargando...</h1>
+          <div class="person-detail__meta">
+            <span class="person-detail__meta-item" id="person-ciudad">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Cargando...</span>
+            </span>
+            <span class="person-detail__meta-item" id="person-status-badge">
+              <!-- Filled by JS -->
+            </span>
+          </div>
+          <p class="text-small text-muted mt-2" id="person-last-report">
+            Último reporte: Cargando...
+          </p>
+
+          <!-- Social contacts (hidden by default, toggled by "Ver contacto") -->
+          <div class="person-detail__contact-toggle" style="margin-top: var(--space-2);">
+            <button type="button" id="toggle-contact-btn"
+                    class="btn btn-outline btn-sm"
+                    style="font-size: 0.8rem; padding: var(--space-1) var(--space-3);">
+              📞 Ver contacto
+            </button>
+          </div>
+          <div class="person-detail__social" id="person-social-contacts" style="display:none; margin-top: var(--space-3); padding: var(--space-3); background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem;">
+            <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: var(--space-2); color: var(--text-primary);">Información de contacto</h4>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: var(--space-3);">Estos datos son privados y solo se muestran aquí para facilitar la coordinación.</p>
+            <div id="social-whatsapp" style="display:flex; align-items:center; gap: var(--space-2); margin-bottom: var(--space-1);">
+              <span style="font-weight: 600; min-width: 80px;">WhatsApp:</span>
+              <span id="social-whatsapp-value" style="color: var(--text-secondary);">—</span>
+            </div>
+            <div id="social-instagram" style="display:flex; align-items:center; gap: var(--space-2); margin-bottom: var(--space-1);">
+              <span style="font-weight: 600; min-width: 80px;">Instagram:</span>
+              <span id="social-instagram-value" style="color: var(--text-secondary);">—</span>
+            </div>
+            <div id="social-email" style="display:flex; align-items:center; gap: var(--space-2); margin-bottom: var(--space-1);">
+              <span style="font-weight: 600; min-width: 80px;">Email:</span>
+              <span id="social-email-value" style="color: var(--text-secondary);">—</span>
+            </div>
+            <div id="social-otro" style="display:flex; align-items:center; gap: var(--space-2);">
+              <span style="font-weight: 600; min-width: 80px;">Otro:</span>
+              <span id="social-otro-value" style="color: var(--text-secondary);">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ──────────────────────────────────────────────────────────
+           Report Timeline
+           ────────────────────────────────────────────────────────── -->
+      <section class="detail-section report-timeline-section" aria-labelledby="reportes-titulo">
+        <h2 class="detail-section__title" id="reportes-titulo">Reportes</h2>
+
+        <div class="report-timeline" id="report-timeline">
+          <!-- Report cards rendered dynamically by JS -->
+
+          <!-- Skeleton loading (hidden once data loads) -->
+          <div class="skeleton skeleton--card" id="report-skeleton-1" aria-hidden="true"></div>
+          <div class="skeleton skeleton--card" id="report-skeleton-2" aria-hidden="true" style="height: 160px;"></div>
+        </div>
+
+        <!-- Empty state for no reports -->
+        <div class="empty-state hidden" id="no-reports-state">
+          <div class="empty-state__icon" aria-hidden="true">📋</div>
+          <h3 class="empty-state__title">Sin reportes todavía</h3>
+          <p class="empty-state__text">
+            No hay reportes registrados para esta persona.
+            Si tienes información, puedes agregar un reporte aquí abajo.
+          </p>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────────────────────────────────────
+           Share Section
+           ────────────────────────────────────────────────────────── -->
+      <section class="share-section" aria-labelledby="compartir-titulo">
+        <h2 class="share-section__title" id="compartir-titulo">Compartir esta página</h2>
+        <p class="share-section__text">
+          Ayuda a difundir esta ficha. Mientras más personas la vean,
+          más rápido podremos encontrar información.
+        </p>
+        <div class="share-buttons" style="display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center;">
+          <a href="#" id="whatsapp-share-btn"
+             class="btn btn-whatsapp btn-lg whatsapp-btn"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Compartir por WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+            </svg>
+            Compartir por WhatsApp
+          </a>
+          <button class="btn btn-outline btn-lg" id="copy-link-btn">
+            📋 Copiar enlace
+          </button>
+          <button class="btn btn-outline btn-lg" id="copy-share-text-btn">
+            📝 Copiar texto para redes
+          </button>
+        </div>
+        <div id="share-text-preview" style="display:none; margin-top: var(--space-3); padding: var(--space-3); background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-secondary); text-align: left; white-space: pre-wrap; word-break: break-word;"></div>
+      </section>
+
+      <!-- ──────────────────────────────────────────────────────────
+           Add Report Section
+           ────────────────────────────────────────────────────────── -->
+      <section class="detail-section add-report-section" aria-labelledby="reportar-info-titulo">
+        <h2 class="detail-section__title" id="reportar-info-titulo">¿Tienes información?</h2>
+        <p class="text-small text-secondary mb-4" style="color: var(--text-secondary);">
+          Si has visto a esta persona o sabes algo sobre su paradero,
+          comparte la información aquí. Cada reporte ayuda.
+        </p>
+
+        <!-- Toggle button -->
+        <button type="button" id="toggle-report-form"
+                class="btn btn-primary btn-block mb-4">
+          Reportar información
+        </button>
+
+        <!-- Inline form (hidden by default) -->
+        <form id="report-form"
+              class="search-form hidden"
+              aria-label="Formulario de reporte"
+              novalidate>
+          <h3 class="mb-3" style="font-size: 1.05rem; font-weight: 700;">Nuevo reporte</h3>
+
+          <!-- Tipo de reporte -->
+          <div class="form-group mb-4">
+            <label for="report-tipo">Tipo de reporte</label>
+            <select id="report-tipo" name="tipo" required aria-required="true">
+              <option value="">Selecciona una opción...</option>
+              <option value="esta-bien">Está bien</option>
+              <option value="fue-visto">Fue visto/a</option>
+              <option value="encontrado">Encontrado</option>
+            </select>
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group mb-4">
+            <label for="report-descripcion">Descripción</label>
+            <textarea id="report-descripcion" name="descripcion"
+                      rows="4" required aria-required="true"
+                      placeholder="Describe dónde, cuándo y cómo fue vista esta persona. Sé lo más específico posible."></textarea>
+          </div>
+
+          <!-- Fotos -->
+          <div class="form-group mb-4">
+            <label for="report-fotos">Fotos (opcional)</label>
+            <input type="file" id="report-fotos" name="fotos"
+                   accept="image/*"
+                   multiple
+                   aria-describedby="fotos-hint">
+            <span id="fotos-hint" class="text-small text-muted" style="color: var(--text-muted);">
+              Puedes seleccionar varias imágenes. Formatos: JPG, PNG, WebP.
+            </span>
+          </div>
+
+          <!-- Contacto -->
+          <div class="form-group mb-5">
+            <label for="report-contacto">Contacto (opcional)</label>
+            <input type="text" id="report-contacto" name="contacto"
+                   placeholder="Tu nombre o número de teléfono (opcional)">
+            <span class="text-small text-muted" style="color: var(--text-muted);">
+              Déjanos un contacto por si alguien necesita confirmar la información.
+            </span>
+          </div>
+
+          <!-- Submit -->
+          <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button type="submit" class="btn btn-primary" id="submit-report-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 2L11 13"/>
+                <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+              </svg>
+              Enviar reporte
+            </button>
+            <button type="button" class="btn btn-outline" id="cancel-report-btn">
+              Cancelar
+            </button>
+          </div>
+
+          <!-- Status message -->
+          <p id="report-form-status" class="text-small mt-4 hidden" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       AD PLACEHOLDER
+       ═══════════════════════════════════════════════════════════════ -->
+  <aside class="container" aria-label="Espacio publicitario">
+    <div class="ad-placeholder ad-banner" style="margin-bottom: var(--space-6);">
+      <span class="ad-placeholder__label">Espacio publicitario — Ayuda a mantener este sitio</span>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div>
+        <div class="footer-stripes" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <p>BuscaVenezuela — Plataforma comunitaria de respuesta ante emergencias</p>
+        <p class="text-small">Los datos son públicos. No compartas información sensible.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/buscar.html">Buscar personas</a>
+        <a href="/reportar.html">Reportar desaparecido</a>
+        <a href="/estoy-bien.html">Estoy bien</a>
+        <a href="#donar">Donar</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script type="module" src="/js/pages/persona.js"></script>
+
+</body>
+</html>

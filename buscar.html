@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Busca personas desaparecidas o encontradas tras el terremoto en Venezuela. Filtra por nombre, ciudad y estado.">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Buscar personas — BuscaVenezuela">
+  <meta property="og:description" content="Busca personas reportadas tras el terremoto. Filtra por nombre, ciudad o estado.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_VE">
+  <title>Buscar personas — BuscaVenezuela</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       EMERGENCY BANNER
+       ═══════════════════════════════════════════════════════════════ -->
+  <aside class="emergency-banner" role="alert">
+    ⚠️ Terremoto 7.5 — Caracas, La Guaira y otras ciudades afectadas
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo" aria-label="BuscaVenezuela — Ir al inicio">
+        <span class="logo-stripe logo-stripe--yellow" aria-hidden="true"></span>
+        <span class="logo-stripe logo-stripe--blue" aria-hidden="true"></span>
+        <span class="logo-stripe logo-stripe--red" aria-hidden="true"></span>
+        BuscaVenezuela
+      </a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="/buscar.html" class="active">Buscar personas</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SEARCH SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <main>
+    <section class="search-section" aria-labelledby="buscar-titulo">
+      <div class="container">
+
+        <h1 class="search-form__title" id="buscar-titulo">Buscar personas</h1>
+
+        <!-- Search Form -->
+        <form class="search-form" id="search-form" autocomplete="off" aria-label="Formulario de búsqueda">
+          <div class="form-row">
+            <!-- Search by name -->
+            <div class="form-group" style="flex: 2;">
+              <label for="search-input">Nombre</label>
+              <div style="position: relative;">
+                <input
+                  type="text"
+                  id="search-input"
+                  class="search-input"
+                  placeholder="Buscar por nombre..."
+                  aria-label="Buscar por nombre"
+                >
+                <!-- Search icon (inline SVG) -->
+                <svg
+                  style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;"
+                  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Filter by city -->
+            <div class="form-group">
+              <label for="filter-ciudad">Ciudad</label>
+              <select id="filter-ciudad" aria-label="Filtrar por ciudad">
+                <option value="">Todas las ciudades</option>
+                <option value="caracas">Caracas</option>
+                <option value="la-guaira">La Guaira</option>
+                <option value="miranda">Miranda</option>
+                <option value="sucre">Sucre</option>
+                <option value="vargas">Vargas</option>
+                <option value="aragua">Aragua</option>
+                <option value="carabobo">Carabobo</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+            <!-- Filter by status -->
+            <div class="form-group">
+              <label for="filter-estado">Estado</label>
+              <select id="filter-estado" aria-label="Filtrar por estado">
+                <option value="">Todos</option>
+                <option value="desaparecidos">Desaparecidos</option>
+                <option value="estan-bien">Están bien</option>
+                <option value="encontrados">Encontrados</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Aplicar filtros
+          </button>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         ACTIVE FILTERS BAR
+         ═══════════════════════════════════════════════════════════════ -->
+    <section class="container" aria-label="Filtros activos">
+      <div class="active-filters" id="active-filters">
+        <!-- Filters rendered dynamically by JS -->
+        <!-- Example static chip (hidden by default, shown when filters active):
+        <span class="filter-chip">
+          Ciudad: Caracas
+          <button class="filter-chip__remove" aria-label="Quitar filtro Ciudad: Caracas">&times;</button>
+        </span>
+        <span class="filter-chip">
+          Estado: Desaparecidos
+          <button class="filter-chip__remove" aria-label="Quitar filtro Estado: Desaparecidos">&times;</button>
+        </span>
+        -->
+      </div>
+      <!-- Clear all filters link -->
+      <div id="clear-filters-wrapper" class="hidden" style="margin-bottom: var(--space-4);">
+        <a href="/buscar.html" id="clear-filters" class="text-small" style="color: var(--text-muted);">
+          Limpiar filtros
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         RESULTS SECTION
+         ═══════════════════════════════════════════════════════════════ -->
+    <section class="container" aria-labelledby="resultados-titulo">
+
+      <!-- Results header with count -->
+      <div class="results-header" id="results-header">
+        <span class="sr-only" id="resultados-titulo">Resultados de búsqueda</span>
+        <span class="results-count" id="results-count">
+          <strong>0</strong> resultados encontrados
+        </span>
+        <!-- Sort dropdown (optional, rendered by JS) -->
+      </div>
+
+      <!-- Person cards list -->
+      <div class="person-list" id="person-list" role="list" aria-label="Lista de personas">
+        <!-- Cards rendered dynamically by JS -->
+      </div>
+
+      <!-- Empty state (shown when no results) -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-state__icon" aria-hidden="true">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+               style="color: var(--text-muted);">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            <line x1="8" y1="11" x2="14" y2="11"/>
+          </svg>
+        </div>
+        <h2 class="empty-state__title">No encontramos resultados</h2>
+        <p class="empty-state__text">
+          Intenta usar menos filtros o busca con otro nombre.
+          Si la persona que buscas no aparece, puedes
+          <a href="/reportar.html">reportarla aquí</a>.
+        </p>
+      </div>
+
+      <!-- Loading skeleton state (hidden by default) -->
+      <div class="person-list hidden" id="skeleton-list" aria-hidden="true">
+        <div class="card person-card">
+          <div class="skeleton skeleton--avatar"></div>
+          <div class="person-card__info" style="flex:1;">
+            <div class="skeleton skeleton--text" style="width:60%;"></div>
+            <div class="skeleton skeleton--text skeleton--text-short"></div>
+          </div>
+        </div>
+        <div class="card person-card">
+          <div class="skeleton skeleton--avatar"></div>
+          <div class="person-card__info" style="flex:1;">
+            <div class="skeleton skeleton--text" style="width:50%;"></div>
+            <div class="skeleton skeleton--text skeleton--text-short"></div>
+          </div>
+        </div>
+        <div class="card person-card">
+          <div class="skeleton skeleton--avatar"></div>
+          <div class="person-card__info" style="flex:1;">
+            <div class="skeleton skeleton--text" style="width:65%;"></div>
+            <div class="skeleton skeleton--text skeleton--text-short"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           PAGINATION
+           ═══════════════════════════════════════════════════════════════ -->
+      <nav class="pagination" id="pagination" aria-label="Paginación de resultados">
+        <button class="pagination__btn pagination__btn--disabled" id="prev-page"
+                aria-label="Página anterior" disabled>
+          ← Anterior
+        </button>
+        <span class="pagination__btn pagination__btn--active" id="current-page"
+              aria-current="page">1</span>
+        <button class="pagination__btn pagination__btn--disabled" id="next-page"
+                aria-label="Página siguiente" disabled>
+          Siguiente →
+        </button>
+      </nav>
+
+    </section>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       AD PLACEHOLDER
+       ═══════════════════════════════════════════════════════════════ -->
+  <aside class="container" aria-label="Espacio publicitario" style="margin-top: var(--space-6);">
+    <div class="ad-placeholder ad-banner">
+      <span class="ad-placeholder__label">Espacio publicitario — Ayuda a mantener este sitio</span>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div>
+        <div class="footer-stripes" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <p>BuscaVenezuela — Plataforma comunitaria de respuesta ante emergencias</p>
+        <p class="text-small">Los datos son públicos. No compartas información sensible.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/buscar.html">Buscar personas</a>
+        <a href="/reportar.html">Reportar desaparecido</a>
+        <a href="/estoy-bien.html">Estoy bien</a>
+        <a href="#donar">Donar</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script type="module" src="/js/pages/buscar.js"></script>
+
+</body>
+</html>

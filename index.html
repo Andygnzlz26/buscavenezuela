@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Plataforma de registro de personas afectadas por el terremoto en Venezuela. Reporta desaparecidos o confirma que estás bien.">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="BuscaVenezuela — Registro de personas afectadas por el terremoto">
+  <meta property="og:description" content="Reporta a un desaparecido o confirma que estás bien. Datos públicos, acceso gratuito.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_VE">
+  <title>BuscaVenezuela — Registro de personas afectadas por el terremoto</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       EMERGENCY BANNER
+       ═══════════════════════════════════════════════════════════════ -->
+  <aside class="emergency-banner" role="alert">
+    ⚠️ Terremoto 7.5 — Caracas, La Guaira y otras ciudades afectadas
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo" aria-label="BuscaVenezuela — Ir al inicio">
+        <span class="logo-stripe logo-stripe--yellow" aria-hidden="true"></span>
+        <span class="logo-stripe logo-stripe--blue" aria-hidden="true"></span>
+        <span class="logo-stripe logo-stripe--red" aria-hidden="true"></span>
+        BuscaVenezuela
+      </a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="/buscar.html">Buscar personas</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">BuscaVenezuela</h1>
+      <p class="hero-subtitle">
+        Plataforma de registro de personas afectadas por el terremoto.
+        Encuentra a tus seres queridos o confirma que estás bien.
+      </p>
+      <div class="hero-ctas">
+        <a href="/reportar.html" class="btn btn-primary btn-lg">
+          Reportar desaparecido
+        </a>
+        <a href="/estoy-bien.html" class="btn btn-secondary btn-lg">
+          Estoy bien
+        </a>
+      </div>
+
+      <!-- Hero Search Bar -->
+      <div class="hero-search">
+        <svg class="hero-search__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input
+          type="text"
+          class="hero-search__input"
+          id="hero-search-input"
+          placeholder="Buscar por nombre..."
+          autocomplete="off"
+        >
+        <button class="hero-search__btn" id="hero-search-btn" aria-label="Buscar">
+          Buscar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MISSING PERSONS CAROUSEL
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="carousel-section container" aria-labelledby="carousel-titulo">
+    <h2 class="section-title" id="carousel-titulo">Personas desaparecidas recientemente</h2>
+    <div class="carousel" id="missing-carousel" role="list" aria-label="Carrusel de personas desaparecidas">
+      <!-- Cards inserted dynamically by home.js -->
+    </div>
+    <p class="carousel-section__empty hidden" id="carousel-empty">
+      No hay reportes de desaparecidos aún. Si conoces a alguien, <a href="/reportar.html">repórtalo aquí</a>.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       STATS BAR
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="container" aria-label="Estadísticas en tiempo real">
+    <div class="stats-bar">
+      <div class="stat-item stat-item--yellow">
+        <span class="stat-item__number" id="stat-reportados">0</span>
+        <span class="stat-item__label">Personas reportadas</span>
+      </div>
+      <div class="stat-item stat-item--red">
+        <span class="stat-item__number" id="stat-desaparecidos">0</span>
+        <span class="stat-item__label">Desaparecidos</span>
+      </div>
+      <div class="stat-item stat-item--blue">
+        <span class="stat-item__number" id="stat-bien">0</span>
+        <span class="stat-item__label">Están bien</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-item__number" id="stat-ciudades">0</span>
+        <span class="stat-item__label">Ciudades afectadas</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HOW IT WORKS
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="steps-section" aria-labelledby="como-funciona-titulo">
+    <div class="container">
+      <h2 class="section-title" id="como-funciona-titulo">¿Cómo funciona?</h2>
+      <div class="steps-list">
+
+        <div class="step-card">
+          <span class="step-card__number step-card__number--yellow" aria-hidden="true">1</span>
+          <div class="step-card__content">
+            <h4>Reporta</h4>
+            <p>Busca a tu familiar o reporta que estás bien. La información queda registrada de inmediato.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-card__number step-card__number--blue" aria-hidden="true">2</span>
+          <div class="step-card__content">
+            <h4>Comparte</h4>
+            <p>Envía el enlace por WhatsApp a tus contactos. Mientras más personas lo usen, más efectivo será.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-card__number step-card__number--red" aria-hidden="true">3</span>
+          <div class="step-card__content">
+            <h4>Encuentra</h4>
+            <p>Recibe notificaciones cuando alguien reporte información sobre un desaparecido.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       AD PLACEHOLDER
+       ═══════════════════════════════════════════════════════════════ -->
+  <aside class="container" aria-label="Espacio publicitario">
+    <div class="ad-placeholder ad-banner">
+      <span class="ad-placeholder__label">Espacio publicitario — Ayuda a mantener este sitio</span>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div>
+        <div class="footer-stripes" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <p>BuscaVenezuela — Plataforma comunitaria de respuesta ante emergencias</p>
+        <p class="text-small">Los datos son públicos. No compartas información sensible.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/buscar.html">Buscar personas</a>
+        <a href="/reportar.html">Reportar desaparecido</a>
+        <a href="/estoy-bien.html">Estoy bien</a>
+        <a href="#donar">Donar</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script type="module" src="/js/pages/home.js"></script>
+
+</body>
+</html>

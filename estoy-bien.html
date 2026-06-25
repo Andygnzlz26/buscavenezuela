@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reporta que estás a salvo tras el terremoto en Venezuela. Tu familia puede buscar tu nombre en BuscaVenezuela.">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="BuscaVenezuela — Estoy bien">
+  <meta property="og:description" content="Confirma que estás a salvo para que tu familia y amigos sepan de ti.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_VE">
+  <title>Estoy bien — BuscaVenezuela</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* ── Estoy Bien Form Specific Styles ── */
+    .form-section {
+      padding: var(--space-6) 0;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .form-header h1 {
+      font-size: clamp(1.3rem, 5vw, 2rem);
+      margin-bottom: var(--space-2);
+      color: var(--success);
+    }
+
+    .form-header h1 .check-icon {
+      display: inline-block;
+      color: var(--success);
+    }
+
+    .form-header p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .estoy-bien-form {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .form-group--required label::after {
+      content: " *";
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .form-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+    }
+
+    .form-error {
+      font-size: 0.8rem;
+      color: var(--error);
+      margin-top: var(--space-1);
+      display: none;
+    }
+
+    .form-error--visible {
+      display: block;
+    }
+
+    .form-group input.error,
+    .form-group select.error,
+    .form-group textarea.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12);
+    }
+
+    /* ── Green accent focus (override yellow default for this page) ── */
+    .estoy-bien-form .form-group input:focus,
+    .estoy-bien-form .form-group select:focus,
+    .estoy-bien-form .form-group textarea:focus {
+      border-color: var(--success);
+      box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15);
+    }
+
+    /* ── Green submit button ── */
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success);
+    }
+
+    .btn-success:hover {
+      background: #27ae60;
+      border-color: #27ae60;
+      box-shadow: 0 4px 20px rgba(46, 204, 113, 0.35);
+    }
+
+    /* ── Photo upload ── */
+    .photo-upload {
+      margin-top: var(--space-2);
+    }
+
+    .photo-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-3);
+    }
+
+    .photo-preview__item {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 2px solid var(--success);
+      flex-shrink: 0;
+    }
+
+    .photo-preview__item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-preview__remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background var(--transition-fast);
+      padding: 0;
+    }
+
+    .photo-preview__remove:hover {
+      background: var(--flag-red);
+      border-color: var(--flag-red);
+    }
+
+    .photo-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+    }
+
+    /* ── Reassurance note ── */
+    .reassurance-note {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+      padding: var(--space-3);
+      background: rgba(46, 204, 113, 0.06);
+      border: 1px solid rgba(46, 204, 113, 0.15);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .reassurance-note__icon {
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+
+    /* ── Submit area ── */
+    .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .form-actions__note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+    }
+
+    /* ── Loading spinner on button ── */
+    .btn--loading {
+      position: relative;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .btn--loading::after {
+      content: "";
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: btn-spin 0.6s linear infinite;
+      margin-left: var(--space-2);
+    }
+
+    @keyframes btn-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Success state ── */
+    .success-section {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+      display: none;
+    }
+
+    .success-section--visible {
+      display: block;
+    }
+
+    .success-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(46, 204, 113, 0.15);
+      color: var(--success);
+      font-size: 2.25rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .success-section h2 {
+      color: var(--success);
+      margin-bottom: var(--space-2);
+    }
+
+    .success-section p {
+      margin: 0 auto var(--space-5);
+      max-width: 480px;
+    }
+
+    .success-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      justify-content: center;
+    }
+
+    .person-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-3) var(--space-5);
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast);
+    }
+
+    .person-link:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--success);
+      text-decoration: none;
+      color: var(--success);
+    }
+
+    /* ── Responsive ── */
+    @media (min-width: 640px) {
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .form-actions .btn {
+        align-self: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       EMERGENCY BANNER
+       ═══════════════════════════════════════════════════════════════ -->
+  <aside class="emergency-banner" role="alert">
+    ⚠️ Terremoto 7.5 — Caracas, La Guaira y otras ciudades afectadas
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo" aria-label="BuscaVenezuela — Ir al inicio">
+        <span class="logo-stripe logo-stripe--yellow" aria-hidden="true"></span>
+        <span class="logo-stripe logo-stripe--blue" aria-hidden="true"></span>
+        <span class="logo-stripe logo-stripe--red" aria-hidden="true"></span>
+        BuscaVenezuela
+      </a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="/">← Volver</a>
+        <a href="/buscar.html">Buscar personas</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FORM SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <main>
+    <section class="form-section container" id="formSection">
+      <div class="form-header">
+        <h1>Estoy bien <span class="check-icon" aria-hidden="true">✓</span></h1>
+        <p>Reporta que estás a salvo para que tu familia y amigos sepan de ti.</p>
+      </div>
+
+      <form class="estoy-bien-form card" id="estoyBienForm" novalidate>
+
+        <!-- a) Nombre completo * -->
+        <div class="form-group form-group--required">
+          <label for="nombre">Nombre completo</label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            class="form-input"
+            placeholder="Ej: Carlos Eduardo Fernández López"
+            required
+            autocomplete="name"
+          >
+          <span class="form-error" id="error-nombre" role="alert"></span>
+        </div>
+
+        <!-- b) Ciudad / Estado donde te encuentras * -->
+        <div class="form-group form-group--required">
+          <label for="ciudad">Ciudad / Estado donde te encuentras</label>
+          <select id="ciudad" name="ciudad" class="form-select" required>
+            <option value="" disabled selected>Selecciona una ciudad</option>
+            <option value="caracas">Caracas</option>
+            <option value="la-guaira">La Guaira</option>
+            <option value="miranda">Miranda</option>
+            <option value="sucre">Sucre</option>
+            <option value="vargas">Vargas</option>
+            <option value="aragua">Aragua</option>
+            <option value="carabobo">Carabobo</option>
+            <option value="otro">Otro</option>
+          </select>
+          <span class="form-error" id="error-ciudad" role="alert"></span>
+        </div>
+
+        <!-- c) Zona / Sector (optional) -->
+        <div class="form-group">
+          <label for="zona">Zona / Sector</label>
+          <input
+            type="text"
+            id="zona"
+            name="zona"
+            class="form-input"
+            placeholder="Ej: Plaza Venezuela, Catia, Macuto"
+          >
+          <p class="form-hint">Para que tu familia sepa exactamente dónde estás.</p>
+          <span class="form-error" id="error-zona" role="alert"></span>
+        </div>
+
+        <!-- d) Mensaje para tu familia (optional) -->
+        <div class="form-group">
+          <label for="mensaje">Mensaje para tu familia</label>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            class="form-textarea"
+            rows="4"
+            placeholder="Ej: Estoy bien, en casa de mi tía. Mi teléfono no tiene señal pero estoy seguro."
+          ></textarea>
+          <p class="form-hint">Cuéntales cómo estás. Este mensaje será visible públicamente.</p>
+          <span class="form-error" id="error-mensaje" role="alert"></span>
+        </div>
+
+        <!-- e) Foto tuya (optional, max 1) -->
+        <div class="form-group">
+          <label for="foto">Foto tuya</label>
+          <div class="photo-upload">
+            <input
+              type="file"
+              id="foto"
+              name="foto"
+              accept="image/*"
+              class="form-input"
+              style="font-size: 0.9rem;"
+            >
+            <p class="photo-count" id="photoCount">Máximo 1 foto. Para que tu familia te reconozca. Formatos: JPG, PNG, WebP.</p>
+            <span class="form-error" id="error-foto" role="alert"></span>
+            <div class="photo-preview" id="photoPreview" aria-label="Vista previa de tu foto"></div>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Reassurance note -->
+        <div class="reassurance-note">
+          <span class="reassurance-note__icon" aria-hidden="true">💚</span>
+          <span>Tu reporte aparecerá en BuscaVenezuela para que tu familia pueda encontrarte. <strong>Solo se muestra la información que tú decidas compartir.</strong></span>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Redes sociales y contacto -->
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: var(--space-3); color: var(--text-primary);">Redes sociales y contacto</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-4);">Estos datos no se mostrarán públicamente. Solo serán usados para que tu familia pueda contactarte.</p>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="form-group">
+          <label for="contacto_whatsapp">WhatsApp</label>
+          <input
+            type="text"
+            id="contacto_whatsapp"
+            name="contacto_whatsapp"
+            class="form-input"
+            placeholder="Número de teléfono, ej: +58 412 555 1234"
+            autocomplete="tel"
+          >
+          <span class="form-error" id="error-contacto_whatsapp" role="alert"></span>
+        </div>
+
+        <!-- Instagram -->
+        <div class="form-group">
+          <label for="contacto_instagram">Instagram</label>
+          <input
+            type="text"
+            id="contacto_instagram"
+            name="contacto_instagram"
+            class="form-input"
+            placeholder="Usuario de Instagram, ej: @usuario"
+          >
+          <span class="form-error" id="error-contacto_instagram" role="alert"></span>
+        </div>
+
+        <!-- Correo electrónico -->
+        <div class="form-group">
+          <label for="contacto_email">Correo electrónico</label>
+          <input
+            type="email"
+            id="contacto_email"
+            name="contacto_email"
+            class="form-input"
+            placeholder="correo@ejemplo.com"
+            autocomplete="email"
+          >
+          <span class="form-error" id="error-contacto_email" role="alert"></span>
+        </div>
+
+        <!-- Contacto adicional (opcional) -->
+        <div class="form-group">
+          <label for="contacto">Otro medio de contacto (opcional)</label>
+          <input
+            type="text"
+            id="contacto"
+            name="contacto"
+            class="form-input"
+            placeholder="Ej: Telegram, Signal, u otro medio"
+          >
+          <span class="form-error" id="error-contacto" role="alert"></span>
+        </div>
+
+        <!-- f) Submit -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success btn-lg btn-block" id="submitBtn">
+            ✓ Estoy bien — Reportar
+          </button>
+          <p class="form-actions__note">Al reportar, tu nombre aparecerá en los resultados de búsqueda.</p>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SUCCESS STATE (hidden by default)
+         ═══════════════════════════════════════════════════════════════ -->
+    <section class="form-section container">
+      <div class="success-section card" id="successSection">
+        <div class="success-icon" aria-hidden="true">✓</div>
+        <h2>¡Reportado!</h2>
+        <p>Tu familia puede buscar tu nombre en BuscaVenezuela. Tu información está visible para que sepan que estás a salvo.</p>
+        <div class="success-actions">
+          <a href="#" class="person-link" id="personLink" target="_blank" rel="noopener">
+            Ver mi página ↗
+          </a>
+          <button class="btn btn-whatsapp btn-lg" id="whatsappShareBtn">
+            📱 Comparte con tu familia
+          </button>
+          <button class="btn btn-outline btn-lg" id="copyLinkBtn">
+            📋 Copiar enlace
+          </button>
+          <button class="btn btn-outline btn-lg" id="copyShareTextBtn">
+            📝 Copiar texto para redes
+          </button>
+        </div>
+        <div class="share-text-preview" id="shareTextPreview" style="display:none; margin-top: var(--space-4); padding: var(--space-3); background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-secondary); text-align: left; white-space: pre-wrap; word-break: break-word;"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         AD PLACEHOLDER
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="container" aria-label="Espacio publicitario">
+      <div class="ad-placeholder ad-banner">
+        <span class="ad-placeholder__label">Espacio publicitario — Ayuda a mantener este sitio</span>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div>
+        <div class="footer-stripes" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <p>BuscaVenezuela — Plataforma comunitaria de respuesta ante emergencias</p>
+        <p class="text-small">Los datos son públicos. No compartas información sensible.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/buscar.html">Buscar personas</a>
+        <a href="/reportar.html">Reportar desaparecido</a>
+        <a href="/estoy-bien.html">Estoy bien</a>
+        <a href="#donar">Donar</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script type="module" src="/js/pages/estoy-bien.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+[build]
+  command = "echo 'Static site - no build step'"
+  publish = "."
+
+# Clean URL rewrites — each route serves its matching .html file
+[[redirects]]
+  from = "/reportar"
+  to = "/reportar.html"
+  status = 200
+
+[[redirects]]
+  from = "/buscar"
+  to = "/buscar.html"
+  status = 200
+
+[[redirects]]
+  from = "/estoy-bien"
+  to = "/estoy-bien.html"
+  status = 200
+
+[[redirects]]
+  from = "/persona"
+  to = "/persona.html"
+  status = 200

@@ -1,0 +1,5 @@
+# Netlify redirects for SPA-like routing
+/reportar  /reportar.html  200
+/buscar    /buscar.html    200
+/estoy-bien /estoy-bien.html 200
+/persona   /persona.html   200

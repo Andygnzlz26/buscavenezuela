@@ -1,0 +1,15 @@
+{
+  "name": "buscavenezuela",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Registro de personas desaparecidas y encontradas — Venezuela",
+  "scripts": {
+    "dev:api": "wrangler dev --port 8787",
+    "deploy:api": "wrangler deploy",
+    "db:init": "wrangler d1 execute buscavenezuela-db --file=worker/src/schema.sql",
+    "db:preview": "wrangler d1 execute buscavenezuela-db-preview --file=worker/src/schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

@@ -1,0 +1,23 @@
+name = "buscavenezuela-api"
+main = "worker/src/index.js"
+compatibility_date = "2024-12-01"
+
+# D1 Database — create with: wrangler d1 create buscavenezuela-db
+# Then copy the returned database_id below.
+[[d1_databases]]
+binding = "DB"
+database_name = "buscavenezuela-db"
+database_id = "xxxx"  # Reemplaza esto con el ID que te devuelva `wrangler d1 create`
+
+# R2 Bucket — create with: wrangler r2 bucket create buscavenezuela-fotos
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "buscavenezuela-fotos"
+
+# ── Environment overrides ─────────────────────────────────────────────────────
+
+[env.production]
+vars = { CORS_ORIGIN = "https://buscavenezuela.com" }
+
+[env.preview]
+vars = { CORS_ORIGIN = "*" }
