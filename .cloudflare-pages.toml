@@ -2,7 +2,9 @@
   command = "echo 'Static site - no build step'"
   publish = "."
 
-# Clean URL rewrites — each route serves its matching .html file
+[functions]
+  directory = "functions"
+
 [[redirects]]
   from = "/reportar"
   to = "/reportar.html"
