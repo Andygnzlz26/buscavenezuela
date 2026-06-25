@@ -382,26 +382,24 @@ function createReporte(data) {
 function shareWhatsApp(persona) {
   const lines = [];
 
+  const name = persona.name || persona.nombre || 'Persona sin nombre';
+  const city = persona.ciudad ? getCityLabel(persona.ciudad) : '';
+  const date = persona.created_at || persona.fecha || null;
+
   if (persona.tipo === 'desaparecido') {
-    lines.push('🚨 *PERSONA DESAPARECIDA* 🚨');
+    lines.push(`🚨 *DESAPARECIDO/A: ${name}* 🚨`);
   } else if (persona.tipo === 'encontrado') {
-    lines.push('✅ *PERSONA ENCONTRADA* ✅');
+    lines.push(`✅ *ENCONTRADO/A: ${name}* ✅`);
   } else if (persona.tipo === 'estoy_bien') {
-    lines.push('✅ *ESTOY BIEN* ✅');
+    lines.push(`✅ *${name} ESTÁ BIEN* ✅`);
   } else {
-    lines.push('ℹ️ *INFORMACIÓN* ℹ️');
+    lines.push(`ℹ️ *${name}* ℹ️`);
   }
 
   lines.push('');
 
-  if (persona.nombre) {
-    lines.push(`*Nombre:* ${persona.nombre}`);
-  }
-  if (persona.edad) {
-    lines.push(`*Edad:* ${persona.edad}`);
-  }
-  if (persona.ciudad) {
-    lines.push(`*Ciudad:* ${getCityLabel(persona.ciudad)}`);
+  if (city) {
+    lines.push(`*Ciudad:* ${city}`);
   }
   if (persona.ultima_zona) {
     lines.push(`*Última zona:* ${persona.ultima_zona}`);
@@ -409,14 +407,14 @@ function shareWhatsApp(persona) {
   if (persona.descripcion) {
     lines.push(`*Descripción:* ${persona.descripcion}`);
   }
-  if (persona.fecha) {
-    lines.push(`*Fecha:* ${formatDate(persona.fecha)}`);
+  if (date) {
+    lines.push(`*Fecha:* ${formatDate(date)}`);
   }
-  if (persona.contacto) {
-    lines.push(`*Contacto:* ${persona.contacto}`);
+  if (persona.contacto_info) {
+    lines.push(`*Contacto:* ${persona.contacto_info}`);
   }
 
-  // Social contact info (for coordination)
+  // Social contact info
   const socialLines = [];
   if (persona.contacto_whatsapp) socialLines.push(`WhatsApp: ${persona.contacto_whatsapp}`);
   if (persona.contacto_instagram) socialLines.push(`Instagram: ${persona.contacto_instagram}`);
@@ -428,7 +426,7 @@ function shareWhatsApp(persona) {
   }
 
   lines.push('');
-  lines.push(`🔗 Más información: ${CONFIG.siteUrl}/persona/${persona.id}`);
+  lines.push(`🔗 Más información: ${CONFIG.siteUrl}/persona.html?id=${persona.id}`);
   lines.push('');
   lines.push('_Compartido desde BuscaVenezuela_');
 
@@ -444,12 +442,15 @@ function shareWhatsApp(persona) {
 function generateShareText(persona) {
   const lines = [];
 
+  const name = persona.name || persona.nombre || 'Persona sin nombre';
+  const city = persona.ciudad ? getCityLabel(persona.ciudad) : '';
+
   if (persona.tipo === 'desaparecido') {
-    lines.push(`🚨 DESAPARECIDO/A: ${persona.nombre || 'Persona'} — ${getCityLabel(persona.ciudad) || ''}`);
+    lines.push(`🚨 DESAPARECIDO/A: ${name} — ${city}`);
   } else if (persona.tipo === 'estoy_bien') {
-    lines.push(`✅ ${persona.nombre || 'Persona'} está bien — ${getCityLabel(persona.ciudad) || ''}`);
+    lines.push(`✅ ${name} está bien — ${city}`);
   } else {
-    lines.push(`ℹ️ ${persona.nombre || 'Persona'} — ${getCityLabel(persona.ciudad) || ''}`);
+    lines.push(`ℹ️ ${name} — ${city}`);
   }
 
   if (persona.descripcion) {

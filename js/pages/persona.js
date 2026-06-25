@@ -255,7 +255,7 @@ function setupPersonaShareButtons(persona) {
   if (copyShareTextBtn && shareTextPreview && persona) {
     const shareText = generateShareText({
       id: persona.id,
-      nombre: persona.nombre,
+      name: persona.name || persona.nombre,
       ciudad: persona.ciudad,
       ultima_zona: persona.ultima_zona,
       descripcion: persona.descripcion,

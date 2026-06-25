@@ -198,15 +198,16 @@ function showSuccess(persona) {
   if (whatsappShareBtn && persona) {
     const waPersona = {
       id: persona.id,
-      nombre: persona.nombre,
+      name: persona.name || persona.nombre,
       ciudad: persona.ciudad,
       ultima_zona: persona.ultima_zona,
       descripcion: persona.descripcion,
       tipo: 'desaparecido',
-      fecha: persona.fecha,
+      created_at: persona.created_at,
       contacto_whatsapp: persona.contacto_whatsapp,
       contacto_instagram: persona.contacto_instagram,
       contacto_email: persona.contacto_email,
+      contacto_info: persona.contacto_info,
     };
     const url = shareWhatsApp(waPersona);
     whatsappShareBtn.onclick = () => {
