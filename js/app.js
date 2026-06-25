@@ -13,8 +13,8 @@ const CONFIG = {
     if (host === 'localhost' || host === '127.0.0.1') {
       return 'http://localhost:8081';  // Demo server (Python)
     }
-    // Cloudflare Worker — replace with your deployed Worker URL if not proxying
-    return '/api';
+    // Production: Cloudflare Worker
+    return 'https://buscavenezuela-api.workers.dev';
   })(),
   siteUrl: window.location.origin,
   defaultImage: '/img/default-persona.svg',
